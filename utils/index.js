@@ -12,7 +12,7 @@ function message(data, { notice }) {
     if (!autoInstall) {
         notice.info(' npm install')
     }
-    notice.info(' npm run build')
+    notice.info(' npm run dev')
 }
 
 module.exports = {
