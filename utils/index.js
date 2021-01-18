@@ -3,17 +3,17 @@ const path = require('path')
 
 function message(data, { notice }) {
     notice.success(' Project initialization finished!')
-    notice.log(' # ========================')
+    notice.info(' >>>>>>>>>>>>>>>>>>>>>>>>')
 
     const { autoInstall, dirName } = data;
 
-    notice.info(` > To get started：cd ${dirName}`)
+    notice.info(` > To get started：`)
+    notice.info(` cd ${dirName}`)
 
-    if (autoInstall) {
-        notice.info(' > npm run build')
-    } else {
-        notice.info(' > npm install \nnpm run build')
+    if (!autoInstall) {
+        notice.info(' npm install')
     }
+    notice.info(' npm run build')
 }
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
     install(data, { notice }) {
 
         notice.info(' Installing project dependencies...')
-        notice.info(' # ========================')
+        notice.info(' >>>>>>>>>>>>>>>>>>>>>>>>')
 
         const { dirName, inPlace } = data;
         const cwd = path.join(inPlace, dirName)
