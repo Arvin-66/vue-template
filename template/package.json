@@ -1,0 +1,44 @@
+{
+    "name": "{{ name }}",
+    "version": "1.0.0",
+    "description": "{{ description }}",
+    "scripts": {
+        "lint": "eslint --ext .ts,.vue src",
+        "build": "webpack --progress --hide-modules",
+        "watch": "webpack --watch --hide-modules --module production"
+    },
+    "author": "{{ author }}",
+    "license": "{{ license }}",
+    "private": true,
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "3.10.1",
+        "@typescript-eslint/parser": "3.10.1",
+        "clean-webpack-plugin": "3.0.0",
+        "css-loader": "4.3.0",
+        "eslint": "7.7.0",
+        "eslint-config-airbnb-base": "14.2.0",
+        "eslint-friendly-formatter": "4.0.1",
+        "eslint-loader": "4.0.2",
+        "eslint-plugin-import": "2.22.0",
+        "eslint-plugin-vue": "7.1.0",
+        "file-loader": "6.2.0",
+        "html-webpack-plugin": "4.5.0",
+        "style-loader": "1.2.1",
+        "ts-loader": "8.0.3",
+        "typescript": "4.0.2",
+        "url-loader": "4.1.1",
+        "vue-class-component": "7.2.6",
+        "vue-loader": "15.9.4",
+        "vue-template-compiler": "2.6.12",
+        "webpack": "4.44.1",
+        "webpack-cli": "3.3.12"
+    },
+    "dependencies": {
+        "vue": "2.6.12",
+        "vue-property-decorator": "9.0.2"{{#router}},
+        "vue-router": "3.4.8"{{/router}}{{#vuex}},
+        "vuex": "3.5.1",
+        "vuex-module-decorators": "1.0.1"
+        {{/vuex}}
+    }
+}

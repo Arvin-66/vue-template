@@ -1,0 +1,38 @@
+{
+    "compilerOptions": {
+        /* Visit https://aka.ms/tsconfig.json to read more about this file */
+        "target": "ES5",
+        "module": "ESNext",
+        "strict": true,
+        // "jsx": "preserve",
+        "importHelpers": true,
+        "downlevelIteration": true,
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": false,
+        "noImplicitAny": true,
+        "sourceMap": true,
+        "baseUrl": ".",
+        // "types": [
+        //     ""
+        // ],
+        "paths": {
+            "@/*": [
+                "src/*"
+            ]
+        },
+        "lib": [
+            "DOM",
+            "ESNext",
+            "DOM.Iterable",
+            "ScriptHost"
+        ]
+    },
+    "include": [
+        "libs",
+        "@types",
+        "src/**/*"
+    ],
+    "exclude": ["node_modules"]
+}
