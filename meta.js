@@ -7,35 +7,18 @@ module.exports = {
     prompts: {
         name: {
             type: 'input',
-            message: 'Project name',
-            default: 'vue-project'
+            message: 'Project name'
         },
         description: {
             type: 'input',
             message: 'Project description',
-            default: 'A project'
+            default: 'A vue project'
         },
         author: {
             type: 'input',
             message: 'Author',
             default: ''
         },
-        // license: {
-        //     type: 'list',
-        //     message: 'License?',
-        //     choices: [
-        //         {
-        //             name: 'MIT-license',
-        //             value: 'MIT',
-        //             short: 'MIT',
-        //         }, {
-        //             name: 'ISC-license',
-        //             value: 'ISC',
-        //             short: 'ISC',
-        //         }
-        //     ],
-        //     default: 'MIT'
-        // },
         router: {
             type: 'confirm',
             message: 'Install vue-router?',
@@ -54,8 +37,7 @@ module.exports = {
                     name: 'Yes, use NPM',
                     value: true,
                     short: 'NPM'
-                },
-                {
+                }, {
                     name: 'No, I will handle that myself',
                     value: false,
                     short: 'No'

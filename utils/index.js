@@ -3,7 +3,6 @@ const path = require('path')
 
 function message(data, { notice }) {
     notice.success(' Project initialization finished!')
-    notice.info(' >>>>>>>>>>>>>>>>>>>>>>>>')
 
     const { autoInstall, dirName } = data;
 
@@ -21,7 +20,7 @@ module.exports = {
 
     install(data, { notice }) {
 
-        notice.info(' Installing project dependencies...')
+        notice.info(' > Installing project dependencies...')
         notice.info(' >>>>>>>>>>>>>>>>>>>>>>>>')
 
         const { dirName, inPlace } = data;
