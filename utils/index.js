@@ -17,6 +17,7 @@ function message(data, { notice }) {
 }
 
 module.exports = {
+    message, 
 
     install(data, { notice }) {
 
