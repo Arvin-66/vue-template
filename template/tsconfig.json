@@ -30,7 +30,6 @@
         ]
     },
     "include": [
-        "libs",
         "@types",
         "src/**/*"
     ],

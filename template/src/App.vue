@@ -1,5 +1,5 @@
 <template>
-   <div>{{ message }}</div>
+   <div>Hello World</div>
 </template>
 
 <script lang="ts">
@@ -7,8 +7,6 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class App extends Vue {
-    message = 'Hello World'
-
     /** 生命周期 html未渲染 可初始化属性 */
     created() {}
 

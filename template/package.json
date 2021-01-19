@@ -39,7 +39,6 @@
         "vue-property-decorator": "9.0.2"{{#router}},
         "vue-router": "3.4.8"{{/router}}{{#vuex}},
         "vuex": "3.5.1",
-        "vuex-module-decorators": "1.0.1"
-        {{/vuex}}
+        "vuex-module-decorators": "1.0.1"{{/vuex}}
     }
 }
