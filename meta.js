@@ -63,7 +63,10 @@ module.exports = {
     },
     filters: {
         'store/*': 'vuex',
-        'route/*': 'router'
+        'route/*': 'router',
+        '@types/$$.d.ts': 'utils',
+        '@types/utils.d.ts': 'utils',
+        '@types/login.d.ts': 'login'
     },
     complete: function (data, { notice }) {
         const { autoInstall } = data;
