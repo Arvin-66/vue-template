@@ -12,7 +12,7 @@ module.exports = {
         description: {
             type: 'input',
             message: 'Project description',
-            default: 'A vue project'
+            default: 'A Vue.js project'
         },
         author: {
             type: 'input',
@@ -27,6 +27,21 @@ module.exports = {
         vuex: {
             type: 'confirm',
             message: 'Install vuex?',
+            default: false
+        },
+        utils: {
+            type: 'confirm',
+            message: 'Load AWY_UTILS?',
+            default: true
+        },
+        login: {
+            type: 'confirm',
+            message: 'Load AWY_LOGIN?',
+            default: false
+        },
+        element: {
+            type: 'confirm',
+            message: 'Load element-ui?',
             default: false
         },
         autoInstall: {

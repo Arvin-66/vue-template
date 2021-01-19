@@ -11,8 +11,12 @@
     <meta http-equiv="cache-control" content="no-cache" />
     <meta http-equiv="cache" content="no-cache" />
     <meta http-equiv="expires" content="0" />
+    <link href="https://cdn.11h5.com/static/image/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <link href="https://cdn.11h5.com/static/common/css/utils.min.css" rel="stylesheet" />
-    <title></title>
+    {{#element}}
+    <link href="https://cdn.11h5.com/static/common/css/element-ui@2.13.2.min.css" rel="stylesheet" />
+    {{/element}}
+    <title>{{ name }}</title>
 </head>
 
 <body>
@@ -29,9 +33,15 @@
     {{#vuex}}
     <script src="https://cdn.11h5.com/static/common/js/vuex@3.1.2.min.js"></script>
     {{/vuex}}
+    {{#element}}
+    <script src="https://cdn.11h5.com/static/common/js/element-ui@2.13.2.min.js"></script>
+    {{/element}}
+    {{#utils}}
     <script src="https://cdn.11h5.com/static/common/js/utils.min.js"></script>
+    {{/utils}}
+    {{#login}}
     <script src="https://cdn.11h5.com/static/common/js/login.min.js"></script>
-
+    {{/login}}
     <!-- built files will be auto injected -->
 </body>
 
