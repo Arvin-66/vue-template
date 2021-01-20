@@ -41,7 +41,7 @@ module.exports = {
         },
         element: {
             type: 'confirm',
-            message: 'Load element-ui?',
+            message: 'Load Element-ui?',
             default: false
         },
         autoInstall: {
