@@ -4,7 +4,7 @@
     "description": "{{ description }}",
     "scripts": {
         "lint": "eslint --ext .ts,.vue src",
-        "dev": "webpack --progress --hide-modules --module development",
+        "dev": "webpack --progress --hide-modules --config ./webpack.dev.config.js",
         "build": "webpack --progress --hide-modules",
         "watch": "webpack --watch --hide-modules --module production"
     },
