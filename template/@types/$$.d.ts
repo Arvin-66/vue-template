@@ -3,7 +3,7 @@
  * @Author: arvin
  * @Date: 2020-10-15 20:49:06
  * @Last Modified by: Arvin
- * @Last Modified time: 2020-12-24 15:55:04
+ * @Last Modified time: 2021-01-22 14:07:11
  * @Desc $$ 声明文件
  */
 interface Selector {
@@ -30,14 +30,14 @@ interface Selector {
     removeClass(className: string): this;
 
     /**
-     * 判断元素上是否有某个样式
+     * 判断元素上是否存在指定的样式
      *
      * @author arvin
-     * @param {string} className 样式名称
-     * @returns {boolean} 返回结果 true or false
+     * @param {string} className
+     * @returns {boolean}
      * @memberof Selector
      */
-    hasClass(className: string): boolean;
+    hasClass(className: string): boolean
 
     /**
      * 获取当前元素的兄弟元素，不包含本身，需要链式调用
@@ -145,7 +145,7 @@ interface Selector {
      * @param {EventType} [type] 移除的事件类型，可不指定
      * @memberof Selector
      */
-    off(type?: EventType): Selector;
+    off(type?: EventType): this;
 
     /**
      * element列表
@@ -164,6 +164,15 @@ interface Selector {
      * @memberof Selector
      */
     find(target: string): HTMLElement[]
+
+    /**
+     * 清空内容
+     *
+     * @author arvin
+     * @returns {this}
+     * @memberof Selector
+     */
+    empty(): this
 }
 
 declare function $$(selector: string | HTMLElement | Element): Selector;

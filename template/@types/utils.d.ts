@@ -3,7 +3,7 @@
  * @Author: arvin
  * @Date: 2020-09-16 13:35:48
  * @Last Modified by: Arvin
- * @Last Modified time: 2020-12-29 16:22:18
+ * @Last Modified time: 2021-02-02 20:19:42
  * @Desc AWY_UTILS 声明文件
  */
 
@@ -20,7 +20,7 @@ type Method = 'GET' | 'POST'
 type AjaxRes = XMLHttpRequestResponseType
 
 /** 参数类型 */
-type Params = { [key: string]: string | number | undefined }
+type Params = { [key: string]: string | number }
 
 /** 事件捕获的类型 */
 type EventType = keyof HTMLElementEventMap
@@ -31,20 +31,47 @@ type Capture = boolean | { once?: boolean; passive?: boolean }
 /** 没有返回值的function */
 type fn = () => void
 
+type TagNameMap = HTMLElementTagNameMap
+type TagName = keyof TagNameMap
+
+/** 秒 */
+type Seconds = number
+
+/** 毫秒 */
+type Millisecond = number
+
+type Html = HTMLElement
+type Div = HTMLDivElement
+type Input = HTMLInputElement
+type Img = HTMLImageElement
+type Span = HTMLSpanElement
+type Select = HTMLSelectElement
+type Button = HTMLButtonElement
+
 /** 弹窗的统一回调 */
 type DialogCB = (cb: {
-    /** 弹窗的节点ID */
-    id: string;
-
+    /** 节点ID */
+    id: string
     /** 生成的node对象 */
-    node: HTMLElement;
+    node: Html
 
     /** 移除当前节点 */
-    remove: fn;
+    remove: fn
 
     /** 关闭方式，有的时候可能要监听是弹窗右上角关闭，还是点了取消按钮 */
-    closeMode?: 'icon' | 'btn';
+    closeMode?: string;
 }) => void;
+
+interface UrlResult {
+    /** 去参数后的URL */
+    href: string
+
+    /** 当前URL上的hash值 */
+    hash: string
+
+    /** 当前URL所有参数 */
+    args: Params
+}
 
 /** 拓展的事件接口 */
 interface TriggerEvent extends Event {
@@ -57,36 +84,16 @@ interface ExtraEventTarget extends EventTarget {
     tagName: string
 
     /** 父节点 */
-    parentNode: HTMLElement
+    parentNode: Html
 }
 
-/** 角色信息 */
-interface RoleList {
-    /** 角色ID */
-    roleid: string
-
-    /** 角色昵称 */
-    rolename: string
-
-    /** 服务器ID */
-    serverid: string
-
-    /** 服务器名称 */
-    servername: string
-}
-
-/**
- * 弹窗接口
- *
- * @author arvin
- * @interface DialogArgs
- */
+/** 弹窗接口 */
 interface DialogArgs {
     /** 弹窗标题 */
     title?: string;
 
     /** 弹窗内容 */
-    content: string | HTMLElement;
+    content: string | Html;
 
     /** 弹窗的生成位置，默认body，支持任意的class ID节点 */
     target?: string;
@@ -125,12 +132,7 @@ interface DialogArgs {
     trigger?: DialogCB;
 }
 
-/**
- * toast 接口
- *
- * @author arvin
- * @interface ToastArgs
- */
+/** toast参数接口 */
 interface ToastArgs {
     /** 显示的文本 */
     message?: string;
@@ -145,84 +147,16 @@ interface ToastArgs {
     complete?: DialogCB;
 }
 
-interface AuthData {
-    uid: number
-    token: string
-}
-
-/** iosapp分享选项 */
-interface AppShareItem {
-    wxsession: boolean
-    wxtimeline: boolean
-    qq: boolean
-    qzone: boolean
-}
-
-type HandlerKey = 'getUserAccount' | 'setUserAccount' | 'setTitle'
-    | 'clearCache' | 'wxAuth' | 'setRefresh'
-    | 'setBack' | 'setGoTo' | 'setShare' | 'setGoToURL'
-
-interface WebViewBridge {
-    callHandler: (
-        key: HandlerKey,
-        value?: string | AuthData | AppShareItem | ((data: AuthData) => void) | boolean
-    ) => void
-    registerHandler: (key: 'shareComplete', value: (data: string) => void) => void
-}
-
-interface Window {
-    android: {
-        /** 清除缓存 */
-        clearCache: () => void
-        /** 微信授权 */
-        wxAuth: (key: string) => void
-        /** 设置标题 */
-        setTitle: (title: string) => void
-        setUserAccount: (data: string) => void
-        getUserAccount: () => string
-        setRefresh: (type: boolean) => void
-        setBack: (type: boolean) => void
-        setGoTo: (type: boolean) => void
-        setShare: (data: string) => void
-        setGoToURL: (href: string) => void
-    }
-    YGITEMS: {
-        /** 用户服务协议 */
-        getAgreement: () => string
-        /** 隐私保护 儿童信息保护 */
-        getSecrecyAndBabyRules: () => string
-        /** 游戏许可服务协议 支付面板 */
-        getPayRule: () => string
-    }
-    wx: {
-        config: (args: {
-            /** 开启调试模式 */
-            debug: boolean
-            /** 必填，公众号的唯一标识 */
-            appId: string
-            /** 必填，生成签名的时间戳 */
-            timestamp: string
-            /** 必填，生成签名的随机串 */
-            nonceStr: string
-            /** 必填，签名 */
-            signature: string
-            /** 必填，需要使用的JS接口列表 */
-            jsApiList: string[]
-        }) => void
-        /**  config信息验证后会执行ready方法 */
-        ready: (cb: () => void) => void
-        /** 分享给朋友，数据初始化 */
-        onMenuShareAppMessage: (args: {
-            title: string
-            desc: string
-            link: string
-            imgUrl: string
-        }) => void
-        /** 隐藏的菜单列表 */
-        hideMenuItems: (args: {
-            menuList: string[]
-        }) => void
-    }
+/** 文件加载 */
+interface LoadFile {
+    /** 文件路径 */
+    src: string;
+    /** 分配的文件ID，可避免重复加载 */
+    id?: string;
+    /** 文件类型，支持js，css文件，默认type为script */
+    type?: 'script' | 'link';
+    /** 版本号，可手动设置版本号(有利于缓存)，如果没有传入版本号，版本号按小时更新 */
+    ver?: string;
 }
 
 declare namespace AWY_UTILS {
@@ -232,10 +166,10 @@ declare namespace AWY_UTILS {
      *
      * @author arvin
      * @param {string} url 接口链接
-     * @param {params} [data] 额外参数
-     * @param {method} [method] 请求方式，默认get
-     * @param {responseType} [responseType] 返回类型
-     * @returns {Promise<unknown>}
+     * @param {Params} [data] 参数
+     * @param {Method} [method] 请求方式 默认get
+     * @param {AjaxRes} [responseType] 返回类型
+     * @returns {Promise<unknown>} promise对象
      */
     function ajax(
         url: string,
@@ -245,73 +179,65 @@ declare namespace AWY_UTILS {
     ): Promise<unknown>;
 
     /**
-     * URL参数拼接拼接
+     * URL参数拼接
      *
      * @author arvin
-     * @export
-     * @param {string} url 原始URL
-     * @param {params} params 需要拼接的参数
+     * @param {string} url 待拼接的URL
+     * @param {Params} params 追加的参数
      * @returns {string} 拼接完成后的URL
      */
     function buildURL(url: string, params: Params): string;
 
     /**
-     * 给链接附加额外参数 chid subchid trial statid
+     * 拆解一个URL
      *
      * @author arvin
-     * @export
-     * @param {string} u
-     * @returns {string}
+     * @param {string} [url]
+     * @returns {UrlResult}
      */
-    function buildExtraParams(u: string): string
+    function breakURL(url?: string): UrlResult
+
+    /**
+     * 给链接追加额外指定的参数 chid subchid trial statid
+     *
+     * @author arvin
+     * @param {string} url 链接
+     * @returns {string} 追加完成的URL
+     */
+    function buildExtraParams(url: string): string
 
     /**
      * 设置链接上的参数
      *
      * @author arvin
-     * @export
      * @param {string} url 要设置参数的URL
-     * @param {params} params 设置的参数对象
+     * @param {Params} params 参数
      * @returns {string} 设置完成的URL
      */
     function setURLVar(url: string, params: Params): string;
 
     /**
-    * 复制文本
-    *
-    * @author arvin
-    * @export
-    * @param {string} str 将要复制的文本内容
-    * @returns {Promise<void>} promise对象 通过 .then() .catch() 捕捉复制状态
-    */
+     * 复制
+     *
+     * @author arvin
+     * @param {string} str 将要复制的字符串
+     * @returns {Promise<void>} 返回promise对象
+     */
     function copy(str: string): Promise<void>;
 
     /**
-     * 文件加载
+     * 加载一个文件
      *
      * @author arvin
-     * @export
-     * @returns {Promise<void>}
+     * @param {LoadFile} args 文件参数
+     * @returns {Promise<void>} 返回promise对象
      */
-    function loadSingleFile(args: {
-        /** 文件路径 */
-        src: string;
-
-        /** 给当前文件分配一个ID */
-        id?: string;
-
-        /** 文件类型 默认script */
-        type?: 'script' | 'link';
-
-        /** 版本号，默认会生成一个时间戳版本 */
-        ver?: string;
-    }): Promise<void>;
+    function loadSingleFile(args: LoadFile): Promise<void>;
 
     /**
      * 创建一个居中的提示窗
      *
      * @author arvin
-     * @export
      * @param {(string | DialogArgs)} args
      */
     function dialog(args: string | DialogArgs): void;
@@ -320,56 +246,46 @@ declare namespace AWY_UTILS {
      * 创建一个loading
      *
      * @author arvin
-     * @export
      * @param {string} [message] loading显示的文本，默认显示加载中
      */
     function showLoading(message?: string): void;
 
-    /**
-     * 移除loading
-     *
-     * @author arvin
-     * @export
-     */
+    /** 移除loading */
     function hideLoading(): void;
 
     /**
      * 创建一个toast 简易的提示框
      *
      * @author arvin
-     * @export
-     * @param {(string | ToastArgs)} args
+     * @param {(string | ToastArgs)} [args] 支持字符串或者一个ToastArgs类型对象
      */
-    function toast(args: string | ToastArgs): void;
+    function toast(args?: string | ToastArgs): void;
 
     /**
      * 获取一个随机字符串
      *
      * @author arvin
-     * @export
      * @param {number} [len] 字符串长度，默认8位
      * @param {string} [prevStr] 字符串前缀，非必选
-     * @returns {string} 随机字符串
+     * @returns {string} 生成完成的字符串
      */
     function getRandStr(len?: number, prevStr?: string): string;
 
     /**
-     * 设置缓存
+     * 设置永久缓存，不主动清楚将一直存在
      *
      * @author arvin
-     * @export
      * @param {string} key 缓存的key
-     * @param {string | number} value 缓存的值
+     * @param {string} value 缓存的值
      */
-    function setStorage(key: string, value: string | number): void;
+    function setStorage(key: string, value: string): void;
 
     /**
-     * 读取缓存内容
+     * 读取缓存
      *
      * @author arvin
-     * @export
-     * @param {string} key 缓存对应的key
-     * @returns {(string | null)} 返回 key对应的值或者 null
+     * @param {string} key 缓存的key
+     * @returns {(string | null)} key对应的值，如果没有值，则为null
      */
     function getStorage(key: string): string | null;
 
@@ -377,8 +293,7 @@ declare namespace AWY_UTILS {
      * 移除缓存
      *
      * @author arvin
-     * @export
-     * @param {string} key 需要移除的key
+     * @param {string} key 缓存的key
      */
     function removeStorage(key: string): void;
 
@@ -386,27 +301,24 @@ declare namespace AWY_UTILS {
      * 获取URL上所有参数
      *
      * @author arvin
-     * @export
-     * @returns {params} url参数对象
+     * @returns {Params} 返回所有参数
      */
     function getURLQuery(): Params;
 
     /**
-     * 获取URL上某个参数的值
+     * 获取URL上对应key的值
      *
      * @author arvin
-     * @export
-     * @param {string} key
-     * @returns {(string | null)} 参数的值或者null
+     * @param {string} key 参数key
+     * @returns {(string | null)} 没有值则返回null
      */
     function getURLVar(key: string): string | null;
 
     /**
-     * 获取一个UUID，
-     * 生成后会自动缓存在当前域，直到清除storage
+     * 获取一个UUID 生成后会自动缓存在当前域，直到清除
+     *
      * @author arvin
-     * @export
-     * @returns {string} uuid
+     * @returns {string}
      */
     function getUUID(): string;
 
@@ -414,8 +326,7 @@ declare namespace AWY_UTILS {
      * 是否是QQ环境
      *
      * @author arvin
-     * @export
-     * @returns {boolean} boolean
+     * @returns {boolean}
      */
     function isQQ(): boolean;
 
@@ -423,7 +334,6 @@ declare namespace AWY_UTILS {
      * 是否是微信环境
      *
      * @author arvin
-     * @export
      * @returns {boolean} boolean
      */
     function isWeixin(): boolean;
@@ -432,7 +342,6 @@ declare namespace AWY_UTILS {
      * 是否是PC端微信
      *
      * @author arvin
-     * @export
      * @returns {boolean} boolean
      */
     function isPCWeixin(): boolean;
@@ -441,7 +350,6 @@ declare namespace AWY_UTILS {
      * 是否是安卓设备
      *
      * @author arvin
-     * @export
      * @returns {boolean} boolean
      */
     function isAndroid(): boolean;
@@ -450,7 +358,6 @@ declare namespace AWY_UTILS {
      * 是否是苹果设备
      *
      * @author arvin
-     * @export
      * @returns {boolean} boolean
      */
     function isiOS(): boolean;
@@ -459,7 +366,6 @@ declare namespace AWY_UTILS {
      * 是否是爱微游APP
      *
      * @author arvin
-     * @export
      * @returns {boolean} boolean
      */
     function isAWYAPP(): boolean;
@@ -468,7 +374,6 @@ declare namespace AWY_UTILS {
      * 是否是移动端
      *
      * @author arvin
-     * @export
      * @returns {boolean} boolean
      */
     function isMobile(): boolean;
@@ -477,7 +382,6 @@ declare namespace AWY_UTILS {
      * 是否是Safari浏览器 (移动端)
      *
      * @author arvin
-     * @export
      * @returns {boolean} boolean
      */
     function isSafari(): boolean;
@@ -486,30 +390,78 @@ declare namespace AWY_UTILS {
      * 是否是Safari生成的桌面APP (仅限苹果系统)
      *
      * @author arvin
-     * @export
      * @returns {boolean} boolean
      */
     function isSafariApp(): boolean;
 
     /**
-     * 根据ID或者class选择元素
+     * 根据ID或者class选择
      *
      * @author arvin
-     * @export
-     * @param {string} e
-     * @returns {NodeListOf<Element>} 返回一个NodeList
+     * @param {string} el
+     * @returns {Element[]} 返回符合条件的元素数组
      */
-    function select(e: string): NodeListOf<Element>;
+    function select(el: string): Element[];
 
     /**
-     * 创建一个HTML节点对象
+     * 根据元素标签选择
      *
      * @author arvin
-     * @export
-     * @param {string} tag 标签名
-     * @returns {HTMLElement} 返回节点对象
+     * @template T
+     * @param {T} el 元素名称
+     * @returns {TagNameMap[T][]} 返回符合条件的元素数组
      */
-    function create(tag: string): HTMLElement;
+    function select<T extends TagName>(el: T): TagNameMap[T][];
+
+    /**
+     * 创建一个元素对象
+     *
+     * @author arvin
+     * @template T
+     * @param {T} tagName 标签名字
+     * @returns {TagNameMap[T]} 返回创建完成的对象
+     */
+    function create<T extends TagName>(tagName: T): TagNameMap[T];
+
+    /** 刷新页面 */
+    function refresh(): void
+
+    /**
+     * 将时间戳格式化成字符串
+     *
+     * @author arvin
+     * @param {(Seconds | Millisecond)} time 时间戳，支持秒或者毫秒
+     * @param {string} formatType 格式化字符串的样式 例如 'yyyy-MM-dd'  'yyyy-MM-dd hh:mm:ss'
+     * @returns {string} 格式化的字符串
+     */
+    function formatTime(time: Seconds | Millisecond, formatType: string): string
+
+    /** 创建一个div对象 */
+    function getDiv(): Div
+
+    /** 创建一个button对象 */
+    function getButton(): Button
+
+    /** 创建一个span对象 */
+    function getSpan(): Span
+
+    /** 创建一个i对象 */
+    function getI(): Html
+
+    /** 创建一个input对象 */
+    function getInput(): Input
+
+    /** 创建一个select对象 */
+    function getSelect(): Select
+
+    /**
+     * 压缩模版字符串
+     *
+     * @author arvin
+     * @param {string} str 模版字符串
+     * @returns {string}
+     */
+    // function minimizeStr(str: string): string
 
     /** 渠道ID CPS使用 */
     const CHID: string;
@@ -521,7 +473,7 @@ declare namespace AWY_UTILS {
     const STATID: string;
 
     /** 试玩场景, 1代表是试玩场景 */
-    const TRIAL_SCENE: '1';
+    const TRIAL_SCENE: string;
 
     /** 分享来源 */
     const SHARE_FROM: string;
@@ -556,31 +508,21 @@ declare namespace AWY_UTILS {
     /** 是否是试玩状态，该参数综合判断 TRIAL_SCENE 和 ACCOUNT_TYPE */
     let TRIAL: boolean;
 
-    /** 登录按钮，手机登录，游光账号登录 */
-    let LOGIN_BTN: HTMLElement;
+    /** 游戏中心的一些常规API接口，获取游戏列表，游戏详细内容等 */
+    const WebApi: string;
 
-    /** 修改密码按钮 */
-    let MODIFY_BTN: HTMLElement;
+    /** 获取分享内容接口 */
+    const WebShare: string;
 
-    /** 密码登录按钮 */
-    let PWD_LOGIN_BTN: HTMLElement;
+    /** 鉴权相关，获取code token 个人信息等 */
+    const ApiLogin: string;
 
-    /** 记住我按钮 */
-    let SAVE_BTN: HTMLElement | null;
+    /** 获取一些配置信息，例如cps配置 */
+    const ApiConf: string;
 
-    /** 账号节点 */
-    let ACCOUNT_INPUT: HTMLInputElement;
+    /** 获取初始化微信sdk的数据等 */
+    const ApiCommon: string;
 
-    /** 密码节点 */
-    let PWD_INPUT: HTMLInputElement | null;
-
-    /** 图片验证码节点 */
-    let IMG_INPUT: HTMLInputElement | null;
-
-    /** 短信验证码节点 */
-    let SMS_INPUT: HTMLInputElement | null;
-
-    /** 图片验证码session */
-    let IMG_SESSION: string;
-
+    /** 积分商城用到的接口 */
+    const MarketURL: string;
 }
