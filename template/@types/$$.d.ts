@@ -3,9 +3,9 @@
  * @Author: arvin
  * @Date: 2020-10-15 20:49:06
  * @Last Modified by: Arvin
- * @Last Modified time: 2021-01-22 14:07:11
+ * @Last Modified time: 2021-02-03 11:35:34
  * @Desc $$ 声明文件
- */
+*/
 interface Selector {
     /**
      * 添加指定样式，支持链式调用

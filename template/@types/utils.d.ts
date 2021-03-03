@@ -3,9 +3,9 @@
  * @Author: arvin
  * @Date: 2020-09-16 13:35:48
  * @Last Modified by: Arvin
- * @Last Modified time: 2021-02-02 20:19:42
+ * @Last Modified time: 2021-02-09 14:22:20
  * @Desc AWY_UTILS 声明文件
- */
+*/
 
 /** yes or no */
 declare const enum YN {
@@ -20,7 +20,7 @@ type Method = 'GET' | 'POST'
 type AjaxRes = XMLHttpRequestResponseType
 
 /** 参数类型 */
-type Params = { [key: string]: string | number }
+type Params = { [key: string]: string | number | undefined }
 
 /** 事件捕获的类型 */
 type EventType = keyof HTMLElementEventMap
@@ -87,6 +87,21 @@ interface ExtraEventTarget extends EventTarget {
     parentNode: Html
 }
 
+/** 角色信息 */
+interface RoleList {
+    /** 角色ID */
+    roleid: string
+
+    /** 角色昵称 */
+    rolename: string
+
+    /** 服务器ID */
+    serverid: string
+
+    /** 服务器名称 */
+    servername: string
+}
+
 /** 弹窗接口 */
 interface DialogArgs {
     /** 弹窗标题 */
@@ -135,7 +150,7 @@ interface DialogArgs {
 /** toast参数接口 */
 interface ToastArgs {
     /** 显示的文本 */
-    message?: string;
+    message: string;
 
     /** 图标类型 成功 失败 加载中 */
     type?: 'success' | 'fail' | 'loading';
@@ -176,7 +191,7 @@ declare namespace AWY_UTILS {
         data?: Params,
         method?: Method,
         responseType?: AjaxRes
-    ): Promise<unknown>;
+    ): Promise<unknown>
 
     /**
      * URL参数拼接
@@ -186,7 +201,7 @@ declare namespace AWY_UTILS {
      * @param {Params} params 追加的参数
      * @returns {string} 拼接完成后的URL
      */
-    function buildURL(url: string, params: Params): string;
+    function buildURL(url: string, params: Params): string
 
     /**
      * 拆解一个URL
@@ -214,7 +229,7 @@ declare namespace AWY_UTILS {
      * @param {Params} params 参数
      * @returns {string} 设置完成的URL
      */
-    function setURLVar(url: string, params: Params): string;
+    function setURLVar(url: string, params: Params): string
 
     /**
      * 复制
@@ -223,7 +238,7 @@ declare namespace AWY_UTILS {
      * @param {string} str 将要复制的字符串
      * @returns {Promise<void>} 返回promise对象
      */
-    function copy(str: string): Promise<void>;
+    function copy(str: string): Promise<void>
 
     /**
      * 加载一个文件
@@ -232,7 +247,7 @@ declare namespace AWY_UTILS {
      * @param {LoadFile} args 文件参数
      * @returns {Promise<void>} 返回promise对象
      */
-    function loadSingleFile(args: LoadFile): Promise<void>;
+    function loadSingleFile(args: LoadFile): Promise<void>
 
     /**
      * 创建一个居中的提示窗
@@ -240,7 +255,7 @@ declare namespace AWY_UTILS {
      * @author arvin
      * @param {(string | DialogArgs)} args
      */
-    function dialog(args: string | DialogArgs): void;
+    function dialog(args: string | DialogArgs): void
 
     /**
      * 创建一个loading
@@ -248,10 +263,10 @@ declare namespace AWY_UTILS {
      * @author arvin
      * @param {string} [message] loading显示的文本，默认显示加载中
      */
-    function showLoading(message?: string): void;
+    function showLoading(message?: string): void
 
     /** 移除loading */
-    function hideLoading(): void;
+    function hideLoading(): void
 
     /**
      * 创建一个toast 简易的提示框
@@ -259,7 +274,7 @@ declare namespace AWY_UTILS {
      * @author arvin
      * @param {(string | ToastArgs)} [args] 支持字符串或者一个ToastArgs类型对象
      */
-    function toast(args?: string | ToastArgs): void;
+    function toast(args?: string | ToastArgs): void
 
     /**
      * 获取一个随机字符串
@@ -269,7 +284,7 @@ declare namespace AWY_UTILS {
      * @param {string} [prevStr] 字符串前缀，非必选
      * @returns {string} 生成完成的字符串
      */
-    function getRandStr(len?: number, prevStr?: string): string;
+    function getRandStr(len?: number, prevStr?: string): string
 
     /**
      * 设置永久缓存，不主动清楚将一直存在
@@ -278,7 +293,7 @@ declare namespace AWY_UTILS {
      * @param {string} key 缓存的key
      * @param {string} value 缓存的值
      */
-    function setStorage(key: string, value: string): void;
+    function setStorage(key: string, value: string): void
 
     /**
      * 读取缓存
@@ -287,7 +302,7 @@ declare namespace AWY_UTILS {
      * @param {string} key 缓存的key
      * @returns {(string | null)} key对应的值，如果没有值，则为null
      */
-    function getStorage(key: string): string | null;
+    function getStorage(key: string): string | null
 
     /**
      * 移除缓存
@@ -295,7 +310,7 @@ declare namespace AWY_UTILS {
      * @author arvin
      * @param {string} key 缓存的key
      */
-    function removeStorage(key: string): void;
+    function removeStorage(key: string): void
 
     /**
      * 获取URL上所有参数
@@ -303,7 +318,7 @@ declare namespace AWY_UTILS {
      * @author arvin
      * @returns {Params} 返回所有参数
      */
-    function getURLQuery(): Params;
+    function getURLQuery(): Params
 
     /**
      * 获取URL上对应key的值
@@ -312,7 +327,7 @@ declare namespace AWY_UTILS {
      * @param {string} key 参数key
      * @returns {(string | null)} 没有值则返回null
      */
-    function getURLVar(key: string): string | null;
+    function getURLVar(key: string): string | null
 
     /**
      * 获取一个UUID 生成后会自动缓存在当前域，直到清除
@@ -320,7 +335,7 @@ declare namespace AWY_UTILS {
      * @author arvin
      * @returns {string}
      */
-    function getUUID(): string;
+    function getUUID(): string
 
     /**
      * 是否是QQ环境
@@ -328,7 +343,7 @@ declare namespace AWY_UTILS {
      * @author arvin
      * @returns {boolean}
      */
-    function isQQ(): boolean;
+    function isQQ(): boolean
 
     /**
      * 是否是微信环境
@@ -336,7 +351,7 @@ declare namespace AWY_UTILS {
      * @author arvin
      * @returns {boolean} boolean
      */
-    function isWeixin(): boolean;
+    function isWeixin(): boolean
 
     /**
      * 是否是PC端微信
@@ -344,7 +359,7 @@ declare namespace AWY_UTILS {
      * @author arvin
      * @returns {boolean} boolean
      */
-    function isPCWeixin(): boolean;
+    function isPCWeixin(): boolean
 
     /**
      * 是否是安卓设备
@@ -352,7 +367,7 @@ declare namespace AWY_UTILS {
      * @author arvin
      * @returns {boolean} boolean
      */
-    function isAndroid(): boolean;
+    function isAndroid(): boolean
 
     /**
      * 是否是苹果设备
@@ -360,7 +375,7 @@ declare namespace AWY_UTILS {
      * @author arvin
      * @returns {boolean} boolean
      */
-    function isiOS(): boolean;
+    function isiOS(): boolean
 
     /**
      * 是否是爱微游APP
@@ -368,7 +383,15 @@ declare namespace AWY_UTILS {
      * @author arvin
      * @returns {boolean} boolean
      */
-    function isAWYAPP(): boolean;
+    function isAWYAPP(): boolean
+
+    /**
+     * 是否是爱微游盒子app
+     *
+     * @author arvin
+     * @returns {boolean}
+     */
+    function isAwyBoxApp(): boolean
 
     /**
      * 是否是移动端
@@ -376,7 +399,7 @@ declare namespace AWY_UTILS {
      * @author arvin
      * @returns {boolean} boolean
      */
-    function isMobile(): boolean;
+    function isMobile(): boolean
 
     /**
      * 是否是Safari浏览器 (移动端)
@@ -384,7 +407,7 @@ declare namespace AWY_UTILS {
      * @author arvin
      * @returns {boolean} boolean
      */
-    function isSafari(): boolean;
+    function isSafari(): boolean
 
     /**
      * 是否是Safari生成的桌面APP (仅限苹果系统)
@@ -392,7 +415,7 @@ declare namespace AWY_UTILS {
      * @author arvin
      * @returns {boolean} boolean
      */
-    function isSafariApp(): boolean;
+    function isSafariApp(): boolean
 
     /**
      * 根据ID或者class选择
@@ -401,7 +424,7 @@ declare namespace AWY_UTILS {
      * @param {string} el
      * @returns {Element[]} 返回符合条件的元素数组
      */
-    function select(el: string): Element[];
+    function select(el: string): Element[]
 
     /**
      * 根据元素标签选择
@@ -411,7 +434,7 @@ declare namespace AWY_UTILS {
      * @param {T} el 元素名称
      * @returns {TagNameMap[T][]} 返回符合条件的元素数组
      */
-    function select<T extends TagName>(el: T): TagNameMap[T][];
+    function select<T extends TagName>(el: T): TagNameMap[T][]
 
     /**
      * 创建一个元素对象
@@ -421,7 +444,7 @@ declare namespace AWY_UTILS {
      * @param {T} tagName 标签名字
      * @returns {TagNameMap[T]} 返回创建完成的对象
      */
-    function create<T extends TagName>(tagName: T): TagNameMap[T];
+    function create<T extends TagName>(tagName: T): TagNameMap[T]
 
     /** 刷新页面 */
     function refresh(): void
@@ -454,75 +477,81 @@ declare namespace AWY_UTILS {
     /** 创建一个select对象 */
     function getSelect(): Select
 
-    /**
-     * 压缩模版字符串
-     *
-     * @author arvin
-     * @param {string} str 模版字符串
-     * @returns {string}
-     */
-    // function minimizeStr(str: string): string
+    /** 获取爱微游app当前的版本号 */
+    function getAppVersion(): number
+
+    /** 浏览器user agent */
+    const ua: string
 
     /** 渠道ID CPS使用 */
-    const CHID: string;
+    const CHID: string
 
     /** 渠道子ID */
-    const SUBCHID: string;
+    const SUBCHID: string
 
     /** 平台统计ID，功能同CHID，只是用来区分CPS和平台 */
-    const STATID: string;
+    const STATID: string
 
     /** 试玩场景, 1代表是试玩场景 */
-    const TRIAL_SCENE: string;
+    const TRIAL_SCENE: string
 
     /** 分享来源 */
-    const SHARE_FROM: string;
+    const SHARE_FROM: string
 
     /** 用户ID */
-    let UID: number;
+    let UID: number
 
     /** 用户登录凭证 */
-    let TOKEN: string;
+    let TOKEN: string
 
     /** 用户归属的公众号 */
-    let BELONG: string;
+    let BELONG: string
 
     /** 用户是否关注公众号 */
-    let FOCUS: number;
+    let FOCUS: number
 
     /** 是否关注爱微游 */
-    let FOCUS_AWY: boolean;
+    let FOCUS_AWY: boolean
 
     /** 是否关注爱微游plus */
-    let FOCUS_AWY_PLUS: boolean;
+    let FOCUS_AWY_PLUS: boolean
 
     /** 用户注册时间 */
-    let ADD_TIME: number;
+    let ADD_TIME: number
 
     /** 用户是否是试玩账号 */
-    let ACCOUNT_TYPE: YN;
+    let ACCOUNT_TYPE: YN
 
     /** 当前游戏ID */
-    let GAMEID: string;
+    let GAMEID: string
 
     /** 是否是试玩状态，该参数综合判断 TRIAL_SCENE 和 ACCOUNT_TYPE */
-    let TRIAL: boolean;
+    let TRIAL: boolean
+
+    /** 用户的区服ID */
+    let SERVERID: string
 
     /** 游戏中心的一些常规API接口，获取游戏列表，游戏详细内容等 */
-    const WebApi: string;
+    const WebApi: string
 
     /** 获取分享内容接口 */
-    const WebShare: string;
+    const WebShare: string
 
     /** 鉴权相关，获取code token 个人信息等 */
-    const ApiLogin: string;
+    const ApiLogin: string
 
     /** 获取一些配置信息，例如cps配置 */
-    const ApiConf: string;
+    const ApiConf: string
 
     /** 获取初始化微信sdk的数据等 */
-    const ApiCommon: string;
+    const ApiCommon: string
 
     /** 积分商城用到的接口 */
-    const MarketURL: string;
+    const MarketURL: string
+
+    /** window对象 */
+    const win: Window
+
+    /** document对象 */
+    const doc: Document
 }

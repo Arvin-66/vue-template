@@ -3,8 +3,8 @@
  * @Author: arvin
  * @Date: 2020-10-15 20:27:30
  * @Last Modified by: Arvin
- * @Last Modified time: 2021-02-02 14:34:17
- */
+ * @Last Modified time: 2021-02-19 18:16:19
+*/
 
 /** 短信码请求类型 */
 declare const enum SmsCodeType {
@@ -151,7 +151,7 @@ interface CPSConfigData {
     /** 是否屏蔽游戏中心内容 */
     isDel?: YN
 
-    config: CPSConfigData
+    // config: CPSConfigData
 
     /** 页面标题 */
     title?: string
@@ -163,22 +163,54 @@ interface CPSConfigData {
     replaceQrcodeUrl?: string
 
     /** 游戏中心是否试玩，1代表试玩 */
-    isTrial?: '1'
+    isTrial?: string
 
     /** 不显示游戏中心底部导航 */
-    hideFootNav?: '1'
+    hideFootNav?: string
 
     /** 登录选项，1代表禁用，0代表启用，目前总长度5位，分别代表微信扫码，qq，新浪, 游光账号，手机账号 1,1,1,1,1 */
     loginHideOption?: string
+
+    /** 微信H5支付 */
+    wxh5pay?: string
+
+    alih5pay?: string
+
+    /**  */
+    hideWxPay?: string
 
     /** 游戏内是否显示小浮标 */
     ret?: YN
 }
 
+/** ios app 分享初始化 */
+interface BridgeShare {
+    wxsession: boolean
+    wxtimeline: boolean
+    qq: boolean
+    qzone: boolean
+}
+
 interface WebViewBridge {
     callHandler: (
-        key: 'getUserAccount' | 'setUserAccount' | 'setTitle' | 'clearCache' | 'wxAuth',
-        value?: string | AuthData | ((data: AuthData) => void)
+        key: 'getUserAccount'
+            | 'setUserAccount'
+            | 'setTitle'
+            | 'clearCache'
+            | 'wxAuth'
+            | 'setRefresh'
+            | 'setBack'
+            | 'setGoTo'
+            | 'setShare'
+            | 'setGoToURL'
+            | 'wxPay'
+            | 'openURL',
+        value?: string
+            | AuthData
+            | ((data: AuthData) => void)
+            | boolean | BridgeShare
+            | Params,
+        cb?: (err?: string) => void
     ) => void
     registerHandler: (key: 'shareComplete', value: (data: string) => void) => void
 }
@@ -292,8 +324,8 @@ declare namespace AWY_LOGIN {
     /** 解绑手机 */
     function unbindPhone(): Promise<void>
 
-    /** 绑定身份证号，该接口必须catch，捕捉取消绑定的情况 */
-    function bindIdCard(): Promise<void>
+    /** 绑定身份证号，该接口必须catch，捕捉取消绑定的情况，参数allowClose控制是否强行进行实名，强行的情况下不显示关闭按钮 */
+    function bindIdCard(allowClose?: boolean): Promise<void>
 
     /** 获取用户信息 */
     function getUserInfo(): Promise<UserInfo[]>
